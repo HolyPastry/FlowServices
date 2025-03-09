@@ -1,0 +1,16 @@
+{
+    "name": "Holypastry.Bakery.FlowServices.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:96308c8b64ee446d19b379452820aff9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

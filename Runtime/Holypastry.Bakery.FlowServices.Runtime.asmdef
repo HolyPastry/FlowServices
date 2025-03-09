@@ -1,0 +1,19 @@
+{
+    "name": "Holypastry.Bakery.FlowServices.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0762e03342273496088ece273e8c937e",
+        "GUID:33759803a11f4d538227861a78aba30b",
+        "GUID:caca889fed6088d40b22c2d7e2909c31",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
