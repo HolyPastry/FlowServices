@@ -14,7 +14,21 @@ namespace Holypastry.Bakery.Flow
 
         [SerializeField, Child] private Image _screen;
         [SerializeField, Child] private TextMeshProUGUI _text;
+
+        [SerializeField]
+        private Color _screenColor = new(0.14117647058f,
+                                        0.11764705882f,
+                                        0.11764705882f,
+                                        1);
         private float _fadeDuration;
+        private Color _colorClear;
+        private Color _colorOpaque;
+
+        void Awake()
+        {
+            _colorClear = new Color(_screenColor.r, _screenColor.g, _screenColor.b, 0);
+            _colorOpaque = new Color(_screenColor.r, _screenColor.g, _screenColor.b, 1);
+        }
 
         void OnEnable()
         {
@@ -34,10 +48,7 @@ namespace Holypastry.Bakery.Flow
 
         void Start()
         {
-            _screen.color = new Color(0.14117647058f,
-                                        0.11764705882f,
-                                        0.11764705882f,
-                                        1);
+            _screen.color = _colorOpaque;
             _screen.enabled = true;
             if (!FlowServices.IsEnabled())
                 _screen.enabled = false;
@@ -48,10 +59,8 @@ namespace Holypastry.Bakery.Flow
             StopAllCoroutines();
             _text.text = transition.Text;
             _fadeDuration = transition.FadeDuration;
-            _screen.color = new Color(0.14117647058f,
-                                         0.11764705882f,
-                                         0.11764705882f,
-                                         0);
+            _screen.color = _colorClear;
+
 
             StartCoroutine(FadeRoutine(0, 1, 0, transition.TextDuration));
 
@@ -61,10 +70,7 @@ namespace Holypastry.Bakery.Flow
         private void TransitionIn(SceneTransition transition)
         {
             StopAllCoroutines();
-            _screen.color = new Color(0.14117647058f,
-                                       0.11764705882f,
-                                       0.11764705882f,
-                                       1);
+            _screen.color = _colorOpaque;
             _screen.enabled = true;
 
             _text.text = transition.Text;
@@ -85,17 +91,17 @@ namespace Holypastry.Bakery.Flow
             float timePerc = 0;
             while (true)
             {
-                _screen.color = new Color(0.14117647058f,
-                                         0.11764705882f,
-                                         0.11764705882f,
+                _screen.color = new Color(_screenColor.r,
+                                         _screenColor.g,
+                                         _screenColor.b,
                                         Mathf.Lerp(v1, v2, timePerc));
                 timePerc += Time.deltaTime / _fadeDuration;
                 yield return null;
                 if (timePerc > 1) break;
             }
-            _screen.color = new Color(0.14117647058f,
-                                         0.11764705882f,
-                                         0.11764705882f,
+            _screen.color = new Color(_screenColor.r,
+                                         _screenColor.g,
+                                         _screenColor.b,
                                          v2);
             if (waitTimeAfter > 0) _text.enabled = true;
             yield return new WaitForSeconds(waitTimeAfter);

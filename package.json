@@ -9,5 +9,12 @@
         "name": "Sebastien Berton",
         "email": "sebasti1.berton@gmail.com",
         "url": "https://github.com/HolyPastry"
-    }
+    },
+    "samples": [
+        {
+            "displayName": "Prefabs",
+            "description": "Contains the manager prefab and a fade screen",
+            "path": "Samples~/Prefabs"
+        }
+    ]
 }
