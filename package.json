@@ -12,7 +12,7 @@
     },
     "samples": [
         {
-            "displayName": "Prefabs",
+            "displayName": "Flow Services Prefabs",
             "description": "Contains the manager prefab and a fade screen",
             "path": "Samples~/Prefabs"
         }
