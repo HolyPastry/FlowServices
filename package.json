@@ -1,6 +1,6 @@
 {
     "name": "com.holypastry.bakery.flow",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "displayName": "Flow Services",
     "description": "Basic service to handle scene management and flow control.",
     "unity": "2022.3",
@@ -13,9 +13,9 @@
     },
     "samples": [
         {
-            "displayName": "Prefabs",
+            "displayName": "FlowServices",
             "description": "Contains the manager prefab and a fade screen",
-            "path": "Samples~/Prefabs"
+            "path": "Samples~/"
         }
     ]
 }
