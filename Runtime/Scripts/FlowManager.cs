@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,9 @@ namespace Holypastry.Bakery.Flow
         private bool _isInTransitionZone = false;
         private Coroutine _routine;
 
+        internal static Action EndSetup = delegate { };
+        private bool _setupEnded;
+
         void Awake()
         {
             _collection = new DataCollection<SceneData>(_sceneDataFolderName);
@@ -41,6 +45,7 @@ namespace Holypastry.Bakery.Flow
         {
             FlowServices.IsEnabled = () => true;
             FlowServices.WaitUntilReady = () => WaitUntilReady;
+            FlowServices.WaitUntilEndOfSetup = () => new WaitUntil(() => _setupEnded);
 
             FlowServices.LoadScene = TransitionOut;
 
@@ -52,12 +57,15 @@ namespace Holypastry.Bakery.Flow
             FlowServices.FadeIn = VisualTransitionIn;
             FlowServices.FadeOut = VisualTransitionOut;
             FlowServices.IsCustomTransitionOut = () => _customTransitionOut;
+
+            EndSetup = () => _setupEnded = true;
         }
 
         void OnDisable()
         {
             FlowServices.IsEnabled = () => false;
             FlowServices.WaitUntilReady = () => new WaitUntil(() => true);
+            FlowServices.WaitUntilEndOfSetup = () => new WaitUntil(() => true);
             FlowServices.LoadScene = delegate { };
 
             FlowServices.LoadNextScene = delegate { };
@@ -69,6 +77,8 @@ namespace Holypastry.Bakery.Flow
             FlowServices.FadeOut = delegate { };
 
             FlowServices.IsCustomTransitionOut = () => false;
+
+            EndSetup = delegate { };
         }
 
         protected override IEnumerator Start()
@@ -131,13 +141,13 @@ namespace Holypastry.Bakery.Flow
             string sceneName = SceneManager.GetActiveScene().name;
             return GetSceneFromName(sceneName);
         }
-        public void TransitionIn(List<SceneData> list)
+        private void TransitionIn(List<SceneData> list)
         {
             if (_routine != null) return;
             _routine = StartCoroutine(LoadExtraScenesRoutine(list));
         }
 
-        public void TransitionOut(SceneData scene)
+        private void TransitionOut(SceneData scene)
         {
             if (_routine != null) return;
             FlowEvents.OnTransitionOut.Invoke(_postTransition);
@@ -209,5 +219,7 @@ namespace Holypastry.Bakery.Flow
             yield return new WaitUntil(() => asyncOperation.isDone);
             _routine = null;
         }
+
+
     }
 }

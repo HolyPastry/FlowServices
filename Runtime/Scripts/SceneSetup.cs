@@ -17,6 +17,7 @@ namespace Holypastry.Bakery.Flow
                 script.Run();
                 yield return script.WaitUntilEnded;
             }
+            FlowManager.EndSetup();
 
         }
     }

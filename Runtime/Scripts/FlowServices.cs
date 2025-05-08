@@ -24,6 +24,8 @@ public static partial class FlowServices
     /// <returns>A <see cref="WaitUntil"/> object that waits until the service is ready.</returns>
     public static Func<WaitUntil> WaitUntilReady = () => new WaitUntil(() => true);
 
+    public static Func<WaitUntil> WaitUntilEndOfSetup = () => new WaitUntil(() => true);
+
     /// <summary>
     /// Internal action to load the next scene.
     /// </summary>
