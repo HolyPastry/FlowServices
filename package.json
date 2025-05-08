@@ -1,6 +1,6 @@
 {
     "name": "com.holypastry.bakery.flow",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "displayName": "Flow Services",
     "description": "Basic service to handle scene management and flow control.",
     "unity": "2022.3",
