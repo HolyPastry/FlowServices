@@ -172,7 +172,7 @@ namespace Holypastry.Bakery.Flow
             List<AsyncOperation> asyncOperations = new List<AsyncOperation>();
             for (int i = 0; i < sceneList.Count; i++)
             {
-                if (sceneList[i].SceneReference.LoadedScene != null) continue;
+                // if (sceneList[i].SceneReference.LoadedScene != null) continue;
                 var asyncOperation = SceneManager.LoadSceneAsync(sceneList[i].SceneReference.BuildIndex, LoadSceneMode.Additive);
                 // var asyncOperation = SceneManager.LoadSceneAsync(sceneList[i].name, LoadSceneMode.Additive);
                 asyncOperations.Add(asyncOperation);
