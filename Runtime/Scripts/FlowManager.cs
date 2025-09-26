@@ -169,13 +169,17 @@ namespace Holypastry.Bakery.Flow
                 yield break;
             }
 
-            List<AsyncOperation> asyncOperations = new List<AsyncOperation>();
+            List<AsyncOperation> asyncOperations = new();
             for (int i = 0; i < sceneList.Count; i++)
             {
                 // if (sceneList[i].SceneReference.LoadedScene != null) continue;
-                var asyncOperation = SceneManager.LoadSceneAsync(sceneList[i].SceneReference.BuildIndex, LoadSceneMode.Additive);
-                // var asyncOperation = SceneManager.LoadSceneAsync(sceneList[i].name, LoadSceneMode.Additive);
-                asyncOperations.Add(asyncOperation);
+                var scene = SceneManager.GetSceneByName(sceneList[i].name);
+                if (scene.buildIndex == -1)
+                {
+                    var asyncOperation = SceneManager.LoadSceneAsync(sceneList[i].SceneReference.BuildIndex, LoadSceneMode.Additive);
+                    // var asyncOperation = SceneManager.LoadSceneAsync(sceneList[i].name, LoadSceneMode.Additive);
+                    asyncOperations.Add(asyncOperation);
+                }
             }
 
             yield return new WaitUntil(() => asyncOperations.TrueForAll(x => x.isDone));
@@ -206,7 +210,9 @@ namespace Holypastry.Bakery.Flow
             {
                 if (sceneData.isMain)
                 {
-                    SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneData.name));
+                    var scene = SceneManager.GetSceneByName(sceneData.name);
+                    if (scene.buildIndex == -1)
+                        SceneManager.SetActiveScene(scene);
                     return;
                 }
             }
