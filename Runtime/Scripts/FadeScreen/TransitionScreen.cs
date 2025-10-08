@@ -56,20 +56,22 @@ namespace Holypastry.Bakery.Flow
 
         private void TransitionOut(SceneTransition transition)
         {
+
             StopAllCoroutines();
+            if (_screen.color.a == 1)
+                return;
             _text.text = transition.Text;
             _fadeDuration = transition.FadeDuration;
+
             _screen.color = _colorClear;
-
-
             StartCoroutine(FadeRoutine(0, 1, 0, transition.TextDuration));
-
-
 
         }
         private void TransitionIn(SceneTransition transition)
         {
             StopAllCoroutines();
+            if (_screen.color.a == 0)
+                return;
             _screen.color = _colorOpaque;
             _screen.enabled = true;
 
