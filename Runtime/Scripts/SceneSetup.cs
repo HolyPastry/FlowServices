@@ -12,7 +12,10 @@ namespace Holypastry.Bakery.Flow
             var scripts = GetComponentsInChildren<SceneSetupScript>();
 
             foreach (var script in scripts)
+            {
+                if (script.Disabled) continue;
                 yield return script.Routine();
+            }
 
             FlowManager.EndSetup();
         }
