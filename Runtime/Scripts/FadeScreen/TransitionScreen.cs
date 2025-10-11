@@ -23,6 +23,7 @@ namespace Holypastry.Bakery.Flow
         private float _fadeDuration;
         private Color _colorClear;
         private Color _colorOpaque;
+        private Coroutine _routine;
 
         void Awake()
         {
@@ -56,28 +57,28 @@ namespace Holypastry.Bakery.Flow
 
         private void TransitionOut(SceneTransition transition)
         {
-
-            StopAllCoroutines();
-            if (_screen.color.a == 1)
+            if (_routine != null ||
+                _screen.color.a == 1)
                 return;
             _text.text = transition.Text;
             _fadeDuration = transition.FadeDuration;
 
             _screen.color = _colorClear;
-            StartCoroutine(FadeRoutine(0, 1, 0, transition.TextDuration));
+            _routine = StartCoroutine(FadeRoutine(0, 1, 0, transition.TextDuration));
 
         }
         private void TransitionIn(SceneTransition transition)
         {
-            StopAllCoroutines();
-            if (_screen.color.a == 0)
+            if (_routine != null ||
+                _screen.color.a == 0)
                 return;
+
             _screen.color = _colorOpaque;
             _screen.enabled = true;
 
             _text.text = transition.Text;
             _fadeDuration = transition.FadeDuration;
-            StartCoroutine(FadeRoutine(1, 0, transition.TextDuration, 0));
+            _routine = StartCoroutine(FadeRoutine(1, 0, transition.TextDuration, 0));
 
 
         }
@@ -108,6 +109,7 @@ namespace Holypastry.Bakery.Flow
             if (waitTimeAfter > 0) _text.enabled = true;
             yield return new WaitForSeconds(waitTimeAfter);
             _text.enabled = false;
+            _routine = null;
         }
     }
 }
