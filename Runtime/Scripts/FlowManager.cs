@@ -211,7 +211,7 @@ namespace Holypastry.Bakery.Flow
                 if (sceneData.isMain)
                 {
                     var scene = SceneManager.GetSceneByName(sceneData.name);
-                    if (scene.buildIndex == -1)
+                    if (scene.buildIndex != -1)
                         SceneManager.SetActiveScene(scene);
                     return;
                 }
