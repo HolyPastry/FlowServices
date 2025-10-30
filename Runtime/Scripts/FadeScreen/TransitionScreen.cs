@@ -66,7 +66,7 @@ namespace Holypastry.Bakery.Flow
             _fadeDuration = transition.FadeDuration;
 
             _screen.color = _colorClear;
-            _routine = StartCoroutine(FadeRoutine(0, 1, 0, transition.TextDuration));
+            _routine = StartCoroutine(FadeRoutine(1, 0, transition.TextDuration));
 
         }
         private void TransitionIn(SceneTransition transition)
@@ -81,18 +81,19 @@ namespace Holypastry.Bakery.Flow
 
             _text.text = transition.Text;
             _fadeDuration = transition.FadeDuration;
-            _routine = StartCoroutine(FadeRoutine(1, 0, transition.TextDuration, 0));
+            _routine = StartCoroutine(FadeRoutine(0, transition.TextDuration, 0));
         }
 
 
 
-        private IEnumerator FadeRoutine(int v1, int v2, float waitTimeBefore = 0, float waitTimeAfter = 0)
+        private IEnumerator FadeRoutine(float v2, float waitTimeBefore = 0, float waitTimeAfter = 0)
         {
             if (waitTimeBefore > 0) _text.enabled = true;
 
             yield return new WaitForSeconds(waitTimeBefore);
             _text.enabled = false;
             float timePerc = 0;
+            float v1 = _screen.color.a;
             while (true)
             {
                 _screen.color = new Color(_screenColor.r,
