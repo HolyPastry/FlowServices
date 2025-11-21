@@ -2,13 +2,14 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Holypastry.Bakery.Flow
+namespace Bakery
 {
     public class SceneSetup : MonoBehaviour
     {
-        IEnumerator Start()
+        public IEnumerator Routine()
         {
-            yield return FlowServices.WaitUntilReady();
+            yield return Flow.Manager().WaitUntilReady;
+
             var scripts = GetComponentsInChildren<SceneSetupScript>();
 
             foreach (var script in scripts)
@@ -17,7 +18,6 @@ namespace Holypastry.Bakery.Flow
                 yield return script.Routine();
             }
 
-            FlowManager.EndSetup();
         }
     }
 }

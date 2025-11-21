@@ -1,19 +1,17 @@
 
 
+
 using System.Collections;
 using KBCore.Refs;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Holypastry.Bakery.Flow
+namespace Bakery
 {
 
-    public class TransitionScreen : ValidatedMonoBehaviour
+    public class TransitionScreen : MonoBehaviour, IFlowVisuals
     {
-
         [SerializeField, Child] private Image _screen;
-        [SerializeField, Child] private TextMeshProUGUI _text;
 
         [SerializeField]
         private Color _screenColor = new(0.14117647058f,
@@ -21,77 +19,36 @@ namespace Holypastry.Bakery.Flow
                                         0.11764705882f,
                                         1);
         private float _fadeDuration;
-        private Color _colorClear;
-        private Color _colorOpaque;
-        private Coroutine _routine;
-
-        void Awake()
-        {
-            _colorClear = new Color(_screenColor.r, _screenColor.g, _screenColor.b, 0);
-            _colorOpaque = new Color(_screenColor.r, _screenColor.g, _screenColor.b, 1);
-        }
 
         void OnEnable()
         {
-            FlowEvents.OnTransitionOut += TransitionOut;
-            FlowEvents.OnTransitionIn += TransitionIn;
-            FlowEvents.OnFadeOut += TransitionOut;
-            FlowEvents.OnFadeIn += TransitionIn;
+            Flow.Visuals = () => this;
+            Flow.Events.OnEndSetup += SceneFadeIn;
+            Flow.Events.OnSceneUnloading += SceneFadeOut;
         }
 
         void OnDisable()
         {
-            FlowEvents.OnTransitionOut -= TransitionOut;
-            FlowEvents.OnTransitionIn -= TransitionIn;
-            FlowEvents.OnFadeOut -= TransitionOut;
-            FlowEvents.OnFadeIn -= TransitionIn;
+            Flow.Visuals = Flow.UnregisterVisual;
+            Flow.Events.OnEndSetup -= SceneFadeIn;
+            Flow.Events.OnSceneUnloading -= SceneFadeOut;
         }
+
+        private void SceneFadeIn() =>
+            FadeIn(Flow.Manager().DefaultFadeTime);
+
+        private void SceneFadeOut() =>
+            FadeOut(Flow.Manager().DefaultFadeTime);
+
 
         void Start()
         {
-            _screen.color = _colorOpaque;
-            _screen.enabled = true;
-            if (!FlowServices.IsEnabled())
-                _screen.enabled = false;
+            _screen.color = new Color(_screenColor.r, _screenColor.g, _screenColor.b, 1);
+            _screen.enabled = Flow.Manager().Enabled;
         }
 
-        private void TransitionOut(SceneTransition transition)
+        private IEnumerator FadeRoutine(float v2)
         {
-            if (
-                _screen.color.a == 1)
-                return;
-            if (_routine != null)
-                StopCoroutine(_routine);
-            _text.text = transition.Text;
-            _fadeDuration = transition.FadeDuration;
-
-            _screen.color = _colorClear;
-            _routine = StartCoroutine(FadeRoutine(1, 0, transition.TextDuration));
-
-        }
-        private void TransitionIn(SceneTransition transition)
-        {
-            if (
-                _screen.color.a == 0)
-                return;
-            if (_routine != null)
-                StopCoroutine(_routine);
-            _screen.color = _colorOpaque;
-            _screen.enabled = true;
-
-            _text.text = transition.Text;
-            _fadeDuration = transition.FadeDuration;
-            _routine = StartCoroutine(FadeRoutine(0, transition.TextDuration, 0));
-        }
-
-
-
-        private IEnumerator FadeRoutine(float v2, float waitTimeBefore = 0, float waitTimeAfter = 0)
-        {
-            if (waitTimeBefore > 0) _text.enabled = true;
-
-            yield return new WaitForSeconds(waitTimeBefore);
-            _text.enabled = false;
             float timePerc = 0;
             float v1 = _screen.color.a;
             while (true)
@@ -108,10 +65,18 @@ namespace Holypastry.Bakery.Flow
                                          _screenColor.g,
                                          _screenColor.b,
                                          v2);
-            if (waitTimeAfter > 0) _text.enabled = true;
-            yield return new WaitForSeconds(waitTimeAfter);
-            _text.enabled = false;
-            _routine = null;
+        }
+
+        public void FadeIn(float duration)
+        {
+            _fadeDuration = duration;
+            StartCoroutine(FadeRoutine(0));
+        }
+
+        public void FadeOut(float duration)
+        {
+            _fadeDuration = duration;
+            StartCoroutine(FadeRoutine(1));
         }
     }
 }

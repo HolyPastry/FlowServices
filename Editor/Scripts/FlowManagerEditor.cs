@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 
 
-namespace Holypastry.Bakery.Flow
+namespace Bakery
 {
     [CustomEditor(typeof(FlowManager))]
     public class FlowManagerEditor : UnityEditor.Editor
@@ -23,9 +23,9 @@ namespace Holypastry.Bakery.Flow
                 }
                 var flowManager = (FlowManager)target;
 
-                foreach (var sceneData in flowManager.AdditionalScenesToLoad)
+                foreach (var sceneReference in flowManager.AdditionalScenesToLoad)
                 {
-                    var scene = GetSceneObject(sceneData.name);
+                    var scene = GetSceneObject(sceneReference.Name);
                     if (scene == null) continue;
                     EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Additive);
                 }
