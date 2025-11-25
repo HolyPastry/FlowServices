@@ -6,6 +6,11 @@ namespace Bakery
 {
     public class SceneSetup : MonoBehaviour
     {
+
+        void Start()
+            => Flow.Manager().RegisterSetup(this);
+
+
         public IEnumerator Routine()
         {
             yield return Flow.Manager().WaitUntilReady;

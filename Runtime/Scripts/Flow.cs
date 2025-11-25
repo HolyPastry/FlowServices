@@ -1,7 +1,6 @@
 
 using System;
 using Eflatun.SceneReference;
-
 using UnityEngine;
 
 namespace Bakery
@@ -15,11 +14,16 @@ namespace Bakery
             public static Action OnEndSetup = delegate { };
             public static Action OnEndScenesLoading = delegate { };
             public static Action OnSceneUnloading = delegate { };
+            public static Action OnLoadingStarted = delegate { };
+            public static Action<float> OnLoadingProgress = delegate { };
+
         }
 
         public static Func<IFlowManager> Manager = UnregisterManager;
 
-        public static Func<IFlowVisuals> Visuals = UnregisterVisual;
+        public static Func<IFlowVisualTransition> Visuals = UnregisterVisual;
+
+
 
         #endregion
 
@@ -27,7 +31,7 @@ namespace Bakery
 
         #region Unregistering Functions
 
-        internal static IFlowVisuals UnregisterVisual()
+        internal static IFlowVisualTransition UnregisterVisual()
         {
             Debug.LogWarning("No Flow Visual registered. using Mock");
             _cachedVisualMock ??= new FlowVisualMock();
@@ -46,7 +50,7 @@ namespace Bakery
 
         #region Mock Cache
 
-        private static IFlowVisuals _cachedVisualMock;
+        private static IFlowVisualTransition _cachedVisualMock;
         private static IFlowManager _cachedManagerMock;
 
         #endregion
@@ -61,16 +65,19 @@ namespace Bakery
             public WaitUntil WaitUntilReady => new(() => true);
             public WaitUntil WaitUntilEndOfSetup => new(() => true);
 
-            public float DefaultFadeTime => throw new NotImplementedException();
+            public float FadeTime => throw new NotImplementedException();
 
             public void LoadNextScene() { }
             public void LoadScene(SceneReference sceneReference) { }
             public void SetDefaultFadeTime(float duration) { }
+            public void RegisterSetup(SceneSetup setup) { }
         };
-        internal class FlowVisualMock : IFlowVisuals
+        internal class FlowVisualMock : IFlowVisualTransition
         {
-            public void FadeIn(float duration) { }
-            public void FadeOut(float duration) { }
+            public bool Enabled => false;
+            public float FadeDuration { get => 0f; set { } }
+            public Coroutine FadeIn(float duration) => null;
+            public Coroutine FadeOut(float duration) => null;
         }
         #endregion
 
