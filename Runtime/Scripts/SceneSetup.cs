@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,10 +7,19 @@ namespace Bakery
 {
     public class SceneSetup : MonoBehaviour
     {
+        void OnEnable()
+        {
+            Flow.Events.OnEndScenesLoading += Register;
+        }
+        void OnDisable()
+        {
+            Flow.Events.OnEndScenesLoading -= Register;
+        }
 
-        void Start()
-            => Flow.Manager().RegisterSetup(this);
-
+        private void Register()
+        {
+            Flow.Manager().RegisterSetup(this);
+        }
 
         public IEnumerator Routine()
         {
