@@ -16,7 +16,7 @@ namespace Bakery
 
         [SerializeField] private SceneReference _nextSceneToLoad;
 
-        [Header("First scene listed here becomes\nthe active scene after loading")]
+        [Tooltip("First scene listed here becomes\nthe active scene after loading")]
 
         [SerializeField] private List<SceneReference> _scenesToLoad = new();
 
@@ -35,13 +35,11 @@ namespace Bakery
         private bool _setupEnded = false;
         private SceneSetup _sceneSetup;
 
-
-        void OnEnable()
+        void Awake()
             => Flow.Manager = () => this;
 
-        void OnDisable()
+        void OnDestroy()
             => Flow.Manager = Flow.UnregisterManager;
-
 
         void Start()
             => StartCoroutine(LoadExtraScenesRoutine(_scenesToLoad));
