@@ -30,6 +30,7 @@ namespace Bakery
             foreach (var script in scripts)
             {
                 if (script.Disabled) continue;
+                if (script.RunInEditModeOnly && !Application.isEditor) continue;
                 yield return script.Routine();
             }
 
