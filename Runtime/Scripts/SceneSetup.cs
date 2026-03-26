@@ -14,6 +14,7 @@ namespace Holypastry.Bakery.Flow
             foreach (var script in scripts)
             {
                 if (script.Disabled) continue;
+                if (script.RunInEditorOnly && !Application.isEditor) continue;
                 yield return script.Routine();
             }
 
