@@ -65,6 +65,7 @@ public static partial class FlowServices
     /// </summary>
     /// <returns>True if a custom transition out is enabled, otherwise false.</returns>
     public static Func<bool> IsCustomTransitionOut = () => false;
+    public static Func<bool> IsTransitioning = () => false;
 }
 
 

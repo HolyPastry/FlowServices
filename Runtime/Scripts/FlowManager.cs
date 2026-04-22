@@ -57,6 +57,7 @@ namespace Holypastry.Bakery.Flow
             FlowServices.FadeIn = VisualTransitionIn;
             FlowServices.FadeOut = VisualTransitionOut;
             FlowServices.IsCustomTransitionOut = () => _customTransitionOut;
+            FlowServices.IsTransitioning = () => _routine != null;
 
             EndSetup = () => _setupEnded = true;
         }
@@ -78,6 +79,7 @@ namespace Holypastry.Bakery.Flow
 
             FlowServices.IsCustomTransitionOut = () => false;
 
+            FlowServices.IsTransitioning = () => false;
             EndSetup = delegate { };
         }
 
@@ -197,7 +199,6 @@ namespace Holypastry.Bakery.Flow
             if (!_customTransitionIn)
                 FlowEvents.OnTransitionIn.Invoke(_preTransition);
             yield return new WaitForSeconds(_preTransition.TextDuration + _preTransition.FadeDuration);
-
 
             _routine = null;
 
