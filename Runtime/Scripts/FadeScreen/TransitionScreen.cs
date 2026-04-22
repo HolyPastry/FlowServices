@@ -57,25 +57,27 @@ namespace Holypastry.Bakery.Flow
 
         private void TransitionOut(SceneTransition transition)
         {
-            if (
-                _screen.color.a == 1)
+            if (_screen.color.a == 1)
                 return;
+
             if (_routine != null)
                 StopCoroutine(_routine);
+
+
             _text.text = transition.Text;
             _fadeDuration = transition.FadeDuration;
 
             _screen.color = _colorClear;
+            _screen.enabled = true;
             _routine = StartCoroutine(FadeRoutine(1, 0, transition.TextDuration));
 
         }
         private void TransitionIn(SceneTransition transition)
         {
-            if (
-                _screen.color.a == 0)
-                return;
+            if (_screen.color.a == 0) return;
             if (_routine != null)
                 StopCoroutine(_routine);
+
             _screen.color = _colorOpaque;
             _screen.enabled = true;
 
@@ -97,19 +99,20 @@ namespace Holypastry.Bakery.Flow
             while (true)
             {
                 _screen.color = new Color(_screenColor.r,
-                                         _screenColor.g,
-                                         _screenColor.b,
+                                        _screenColor.g,
+                                        _screenColor.b,
                                         Mathf.Lerp(v1, v2, timePerc));
                 timePerc += Time.deltaTime / _fadeDuration;
                 yield return null;
                 if (timePerc > 1) break;
             }
             _screen.color = new Color(_screenColor.r,
-                                         _screenColor.g,
-                                         _screenColor.b,
-                                         v2);
+                                        _screenColor.g,
+                                        _screenColor.b,
+                                        v2);
             if (waitTimeAfter > 0) _text.enabled = true;
             yield return new WaitForSeconds(waitTimeAfter);
+            _screen.enabled = v2 != 0;
             _text.enabled = false;
             _routine = null;
         }
