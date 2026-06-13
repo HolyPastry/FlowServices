@@ -1,7 +1,7 @@
 using System;
 
 
-namespace Holypastry.Bakery.Flow
+namespace Bakery.Flow
 {
 
     [Serializable]

@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Holypastry.Bakery.Flow
+namespace Bakery.Flow
 {
 
     public class TransitionScreen : ValidatedMonoBehaviour

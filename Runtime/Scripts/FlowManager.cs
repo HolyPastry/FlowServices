@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-namespace Holypastry.Bakery.Flow
+namespace Bakery.Flow
 {
     public class FlowManager : Service
     {

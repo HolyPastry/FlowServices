@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Holypastry.Bakery.Flow
+namespace Bakery.Flow
 {
     public class SceneSetup : MonoBehaviour
     {

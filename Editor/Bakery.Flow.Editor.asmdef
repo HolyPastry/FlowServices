@@ -1,5 +1,5 @@
 {
-    "name": "Holypastry.Bakery.FlowServices.Editor",
+    "name": "Bakery.Flow.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:96308c8b64ee446d19b379452820aff9"

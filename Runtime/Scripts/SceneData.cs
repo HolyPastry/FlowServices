@@ -3,7 +3,7 @@ using Eflatun.SceneReference;
 using UnityEngine;
 
 
-namespace Holypastry.Bakery.Flow
+namespace Bakery.Flow
 {
     [CreateAssetMenu(fileName = "SceneData", menuName = "Bakery/Flow/SceneData")]
     public class SceneData : ScriptableObject

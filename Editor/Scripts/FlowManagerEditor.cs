@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 
 
-namespace Holypastry.Bakery.Flow
+namespace Bakery.Flow
 {
     [CustomEditor(typeof(FlowManager))]
     public class FlowManagerEditor : UnityEditor.Editor
