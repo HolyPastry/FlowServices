@@ -1,5 +1,5 @@
 {
-    "name": "holypastry.bakery.flow",
+    "name": "com.holypastry.bakery.flow",
     "version": "0.1.4",
     "displayName": "Bakery Flow",
     "description": "Basic service to handle scene management and flow control.",
